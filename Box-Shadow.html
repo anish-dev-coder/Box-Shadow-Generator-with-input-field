@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Box-Shadow</title>
+    <!-- write custom scc  -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        text-transform: capitalize;
+      }
+
+      html {
+        font-size: 62.5%;
+        overflow-x: hidden;
+      }
+
+      body {
+        background-color: #f4f4f4;
+        color: #111;
+      }
+      /* heading  */
+      h1 {
+        text-align: center;
+        margin: 2rem 0;
+        font-size: 2.5rem;
+      }
+      /* box_container */
+      .box_container {
+        background-color: #fff;
+        min-height: 50vh;
+        width: 90%;
+        margin: 0 auto;
+        padding: 1rem;
+        border: 0.1rem solid #ccc;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #boxes {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        border: 0.1rem solid #ccc;
+        padding: 1rem;
+        background-color: #fff;
+        color: #333;
+      }
+      .input_group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .input_group input {
+        outline: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .input_group label {
+        font-size: 1.6rem;
+      }
+
+      #box {
+        width: 15rem;
+        height: 15rem;
+        background-color: #009688;
+        margin: 2rem;
+        box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.25);
+      }
+      .copy_container {
+        width: 50%;
+        height: 5rem;
+        background-color: #fff;
+        margin: 2rem auto;
+        border: 0.1rem solid #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #generate_code {
+        font-size: 1.6rem;
+        color: #333;
+        text-transform: none;
+        padding: 0 1rem;
+        word-spacing: 0.5rem;
+      }
+      .copy_container .btn {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        outline: none;
+        width: 10rem;
+        height: inherit;
+        cursor: pointer;
+        font-size: 1.5rem;
+      }
+      .copy_container .btn.success {
+        background-color: #10ac84;
+      }
+      .copy_container .btn.error {
+        background-color: #c74b47;
+      }
+
+      .settings {
+        width: 90%;
+        margin: 2rem auto;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .settings .input_group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        padding: 1rem;
+        white-space: nowrap;
+        font-size: 1.4rem;
+      }
+      .settings input[type="number"] {
+        padding: 0.5rem;
+        border: none;
+        outline: none;
+        border: 0.1rem solid #ccc;
+        width: 10rem;
+      }
+
+      @media (max-width: 991px) {
+        html {
+          font-size: 55%;
+        }
+      }
+      @media (max-width: 768px) {
+        .copy_container {
+          width: 90%;
+        }
+      }
+      @media (max-width: 450px) {
+        html {
+          font-size: 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>box-shadow generator</h1>
+    <div class="box_container">
+      <div id="box"></div>
+      <div id="boxes">
+        <div class="input_group">
+          <label for="box_color">box </label>
+          <input
+            type="color"
+            value="#009688"
+            id="box_color"
+            class="box_color"
+          />
+        </div>
+        <div class="input_group">
+          <label for="backgound_color">background</label>
+          <input
+            type="color"
+            value="#ffffff"
+            id="backgound_color"
+            class="backgound_color"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="copy_container">
+      <div id="generate_code"></div>
+      <button class="btn" id="btn">Copy</button>
+    </div>
+    <div class="settings">
+      <div class="input_group">
+        <label for="hShadow">H-Shadow</label>
+        <input type="number" id="hShadow" name="hShadow" value="10" />
+      </div>
+      <div class="input_group">
+        <label for="vShadow">V-Shadow </label>
+        <input type="number" id="vShadow" name="vShadow" value="10" />
+      </div>
+      <div class="input_group">
+        <label for="blur">blur </label>
+        <input type="number" id="blur" name="blur" value="5" min="0" />
+      </div>
+      <div class="input_group">
+        <label for="spread">spread </label>
+        <input type="number" id="spread" name="spread" value="0" />
+      </div>
+      <div class="input_group">
+        <label for="color">color </label>
+        <input type="color" id="color" />
+      </div>
+      <div class="input_group">
+        <label for="opacity">opacity </label>
+        <input
+          type="number"
+          id="opacity"
+          name="opacity"
+          value="0.2"
+          min="0"
+          max="1"
+          step="0.1"
+        />
+      </div>
+      <div class="input_group">
+        <label for="opacity">inset </label>
+        <input type="checkbox" id="inset" name="inset" />
+      </div>
+    </div>
+    <!-- write js custome  code -->
+    <script>
+      let mainBox = document.querySelector("#box");
+      let boxContainer = document.querySelector(".box_container");
+      let boxColor = document.querySelector("#box_color");
+      let backgroundColor = document.querySelector("#backgound_color");
+
+      let generateCode = document.querySelector("#generate_code");
+      let allInputs = document.querySelectorAll(".settings input");
+
+      let button = document.querySelector("#btn");
+
+      // change box-container background color
+      backgroundColor.addEventListener("input", (e) => {
+        boxContainer.style.backgroundColor = e.target.value;
+      });
+      // change main-box background color
+      boxColor.addEventListener("input", (e) => {
+        mainBox.style.backgroundColor = e.target.value;
+      });
+
+      allInputs.forEach((inp) => {
+        inp.addEventListener("input", generateShadow);
+      });
+
+      function generateShadow() {
+        let hShadow = document.querySelector("#hShadow").value;
+        let vShadow = document.querySelector("#vShadow").value;
+        let blurShadow = document.querySelector("#blur").value;
+        let spread = document.querySelector("#spread").value;
+        let color = document.querySelector("#color").value;
+        let opacity = document.querySelector("#opacity").value;
+        let inset = document.querySelector("#inset").checked;
+
+        Shadow = `${
+          inset ? "inset" : ""
+        } ${hShadow}px ${vShadow}px ${blurShadow}px ${spread}px ${HexToRgb(
+          color,
+          opacity
+        )}`;
+        mainBox.style.boxShadow = Shadow;
+        generateCode.textContent = `box-shadow: ${Shadow}`;
+      }
+
+      // convert HexToRgb color code
+      function HexToRgb(ShadowColor, ShadowOpacity) {
+        let r = parseInt(ShadowColor.substr(1, 2), 16);
+        let g = parseInt(ShadowColor.substr(3, 2), 16);
+        let b = parseInt(ShadowColor.substr(5, 2), 16);
+        // return rgba mode
+        return `rgba(${r},${g},${b},${ShadowOpacity})`;
+      }
+
+      // copy box-shadow code
+      btn.addEventListener("click", copyCode);
+      function copyCode() {
+        navigator.clipboard.writeText(generateCode.textContent).then(
+          () => {
+            btn.classList.add("success");
+            btn.textContent = "Copied!";
+
+            setTimeout(() => {
+              btn.classList.remove("success");
+              btn.textContent = "Copy";
+            }, 2000);
+          },
+          () => {
+            btn.classList.add("error");
+            btn.textContent = "Error!";
+
+            setTimeout(() => {
+              btn.classList.remove("error");
+              s;
+              btn.textContent = "Copy";
+            }, 2000);
+          }
+        );
+      }
+      window.onunload = generateShadow();
+    </script>
+  </body>
+</html>
